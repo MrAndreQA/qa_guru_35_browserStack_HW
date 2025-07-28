@@ -27,4 +27,11 @@ public class Attach {
         String videoUrl = "https://app-automate.browserstack.com/sessions/" + sessionId + ".json";
         return "<a href='" + videoUrl + "'>Watch Video</a>";
     }
+
+    @Attachment(value = "BrowserStack video", type = "text/html", fileExtension = ".html")
+    public static String addVideo(String sessionId, String name, String pass) {
+        return "<html><body><video width='100%' height='100%' controls autoplay><source src='"
+                + VideoLoader.videoUrl(sessionId,name,pass)
+                + "' type='video/mp4'></video></body></html>";
+    }
 }

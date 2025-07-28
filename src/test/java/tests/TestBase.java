@@ -3,6 +3,8 @@ package tests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import config.BrowserStackConfig;
+import config.ConfigProvider;
 import drivers.BrowserstackDriver;
 import helpers.Attach;
 import io.appium.java_client.android.AndroidDriver;
@@ -16,6 +18,10 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.Selenide.open;
 
 public class TestBase {
+
+    private static final BrowserStackConfig config = ConfigProvider.getBrowserStackConfig();
+
+
     @BeforeAll
     static void beforeAll() {
         Configuration.browser = BrowserstackDriver.class.getName();
@@ -39,8 +45,9 @@ public class TestBase {
                 driver.getCapabilities().getCapability("deviceName"));
 
         String sessionId = ((RemoteWebDriver) driver).getSessionId().toString();
-        Attach.attachVideoLink(sessionId);
-
+        Attach.addVideo(sessionId,
+                config.userName(),
+                config.accessKey());
         closeWebDriver();
     }
 }
